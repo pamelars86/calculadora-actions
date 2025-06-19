@@ -1,0 +1,75 @@
+name: CI Pipeline
+
+# Se ejecuta en push a main y en pull requests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.10.x, 3.11.x, 3.12.x]
+    
+    steps:
+    # 1. Descargar el código del repositorio
+    - uses: actions/checkout@v4
+    
+    # 2. Configurar Python
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    # 3. Instalar Poetry
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    # 4. Cache de dependencias para acelerar builds
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+    
+    # 5. Instalar dependencias
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      run: poetry install --no-interaction --no-root
+    
+    # 6. Instalar el proyecto
+    - name: Install project
+      run: poetry install --no-interaction
+    
+    # 7. Ejecutar linting con flake8 (opcional - solo errores críticos)
+    - name: Lint with flake8
+      run: |
+        poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exit-zero
+      continue-on-error: true
+    
+    # 8. Formatear código con black (opcional)
+    - name: Check code formatting with black
+      run: poetry run black --check .
+      continue-on-error: true
+    
+    # 9. Ejecutar tests con pytest
+    - name: Test with pytest
+      run: |
+        poetry run pytest -v --cov=calculadora --cov-report=xml --cov-report=term-missing
+    
+    # 10. Subir cobertura a Codecov (opcional)
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false 
