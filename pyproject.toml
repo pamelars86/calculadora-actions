@@ -7,6 +7,7 @@ packages = [{include = "*.py", from = "."}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+requests = "^2.31.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
@@ -14,6 +15,8 @@ pytest-cov = "^4.1.0"
 black = "^23.9.0"
 flake8 = "^6.1.0"
 pre-commit = "^3.4.0"
+pytest-mock = "^3.11.0"
+responses = "^0.23.0"
 
 [tool.pytest.ini_options]
 # Configuración específica para este proyecto
