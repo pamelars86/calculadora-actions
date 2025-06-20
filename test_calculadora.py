@@ -35,3 +35,6 @@ def test_dividir_por_cero():
     """Test: verificar que al dividir por cero se lanza una excepción"""
     with pytest.raises(ValueError):
         dividir(10, 0)
+
+def test_que_va_a_fallar():
+    assert 1 + 1 == 3  
