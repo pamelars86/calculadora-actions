@@ -3,9 +3,7 @@ Tests súper simples para aprender pytest.
 Solo 2 tests básicos.
 """
 
-from calculadora import (
-    sumar, multiplicar, restar, dividir
-)
+from calculadora import sumar, multiplicar, restar, dividir
 import pytest
 
 

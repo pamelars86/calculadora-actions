@@ -28,4 +28,3 @@ def dividir(a, b):
 def potencia(a, b):
     """Eleva un número a la potencia de otro."""
     return a**b
-

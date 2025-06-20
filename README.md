@@ -1,6 +1,6 @@
 # 🧪 Pytest Súper Simple
 
-![CI](https://github.com/TU_USUARIO/calculadora-actions/workflows/CI%20Pipeline/badge.svg)
+![CI](https://github.com/pamelars86/calculadora-actions/workflows/CI%20Pipeline/badge.svg)
 
 Proyecto minimalista para aprender pytest con Poetry.
 
