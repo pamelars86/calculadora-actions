@@ -1,0 +1,28 @@
+# Configuración de Branch Protection
+# Nota: Es mejor configurar esto via Settings → Branches en GitHub
+# Este archivo es solo documentativo
+
+restrictions:
+  branches:
+    main:
+      # Requerir que pasen los status checks
+      required_status_checks:
+        strict: true
+        checks:
+          - "test (3.10.x)"
+          - "test (3.11.x)" 
+          - "test (3.12.x)"
+      
+      # Requerir pull request reviews
+      required_pull_request_reviews:
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: false
+        required_approving_review_count: 1
+      
+      # Restringir pushes directos
+      restrictions:
+        users: []
+        teams: []
+      
+      # No permitir bypass de configuraciones
+      enforce_admins: true 
